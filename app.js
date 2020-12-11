@@ -12,7 +12,7 @@ const render = require("./lib/htmlRenderer");
 
 const employeeArr = [];
 
-const propmtArr = [
+const promptArr = [
     {
         type: "input",
         name: "name",
@@ -29,13 +29,48 @@ const propmtArr = [
         message: "Email address of employee"
     },
     {
-        type: "input",
+        type: "list",
         name: "position",
-        message: "Position of employee"
+        message: "Position of employee",
+        choices: ["Manager", "Engineer", "Intern"]
     },
 ];
 
-
+inquirer.prompt(promptArr).then(function(response){
+    if (response.position === "Manager") {
+        console.log("Manager");
+        function Manager(name, id, email, position) {
+            this.name = name;
+            this.id = id;
+            this.email = email;
+            this.position = position;
+        }
+        const manager = new Manager(response.name, response.id, response.email, response.position);
+        console.log(manager);
+    }
+    else if (response.position === "Engineer") {
+        console.log("Engineer");
+        function Engineer(name, id, email, position) {
+            this.name = name;
+            this.id = id;
+            this.email = email;
+            this.position = position;
+        }
+        const engineer = new Engineer(response.name, response.id, response.email, response.position);
+        console.log(engineer);
+    }
+    else {
+        console.log("Intern");
+        function Intern(name, id, email, position) {
+            this.name = name;
+            this.id = id;
+            this.email = email;
+            this.position = position;
+        }
+        const intern = new Intern(response.name, response.id, response.email, response.position);
+        console.log(intern);
+    }
+});
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
