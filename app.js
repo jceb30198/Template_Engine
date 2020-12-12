@@ -33,45 +33,54 @@ const promptArr = [
         name: "role",
         message: "Role of employee",
         choices: ["Manager", "Engineer", "Intern"]
-    },
+    }
 ];
 
+const managerObj = {
+        type: "input",
+        name: "officeNumber",
+        message: "Manager office number"
+};
+
+const engineerObj = {
+    type: "input",
+    name: "github",
+    message: "Engineer Github username"
+};
+
+const internObj = {
+    type: "input",
+    name: "school",
+    message: "Intern school that is being attended"
+}
 inquirer.prompt(promptArr).then(function(response){
     if (response.role === "Manager") {
-        console.log("Manager");
-        employeeArr.push(manager);
+        inquirer.prompt(managerObj).then(function(data){
+            const manager = new Manager(response.name, response.id, response.email, data.officeNumber);
+            console.log(manager);
+            employeeArr.push(manager);
+        });
     }
     else if (response.role === "Engineer") {
-        console.log("Engineer");
-        function Engineer(name, id, email, role) {
-            this.name = name;
-            this.id = id;
-            this.email = email;
-            this.role = role;
-        }
-        const engineer = new Engineer(response.name, response.id, response.email, response.role);
-        console.log(engineer);
-        employeeArr.push(engineer);
+        inquirer.prompt(engineerObj).then(function(data){
+            const engineer = new Engineer(response.name, response.id, response.email, data.github);
+            console.log(engineer);
+            employeeArr.push(engineer);
+        });
     }
     else {
-        console.log("Intern");
-        function Intern(name, id, email, role) {
-            this.name = name;
-            this.id = id;
-            this.email = email;
-            this.role = role;
-        }
-        const intern = new Intern(response.name, response.id, response.email, response.role);
-        console.log(intern);
-        employeeArr.push(intern);
+        inquirer.prompt(internObj).then(function(data){
+            const intern = new Intern(response.name, response.id, response.email, data.school);
+            console.log(intern);
+            employeeArr.push(intern);
+        });
     }
-    sendFunc();
 });
 
-function sendFunc(){
+/*function sendFunc(){
     console.log(employeeArr);
     fs.writeFileSync(outputPath, render(employeeArr));
-}
+}*/
 
 
 // Write code to use inquirer to gather information about the development team members,
