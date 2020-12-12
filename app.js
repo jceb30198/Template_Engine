@@ -10,9 +10,9 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-const employeeArr = [];
+const hiredArr = [];
 
-const promptArr = [
+const employeeArr = [
     {
         type: "input",
         name: "name",
@@ -53,34 +53,37 @@ const internObj = {
     name: "school",
     message: "Intern school that is being attended"
 }
-inquirer.prompt(promptArr).then(function(response){
+inquirer.prompt(employeeArr).then(function(response){
     if (response.role === "Manager") {
         inquirer.prompt(managerObj).then(function(data){
             const manager = new Manager(response.name, response.id, response.email, data.officeNumber);
             console.log(manager);
-            employeeArr.push(manager);
+            hiredArr.push(manager);
         });
     }
     else if (response.role === "Engineer") {
         inquirer.prompt(engineerObj).then(function(data){
             const engineer = new Engineer(response.name, response.id, response.email, data.github);
             console.log(engineer);
-            employeeArr.push(engineer);
+            hiredArr.push(engineer);
         });
     }
     else {
         inquirer.prompt(internObj).then(function(data){
             const intern = new Intern(response.name, response.id, response.email, data.school);
             console.log(intern);
-            employeeArr.push(intern);
+            hiredArr.push(intern);
         });
     }
+    htmlFunc();
 });
 
-/*function sendFunc(){
-    console.log(employeeArr);
-    fs.writeFileSync(outputPath, render(employeeArr));
-}*/
+function htmlFunc(){
+    const output = render(hiredArr);
+    fs.writeFileSync(outputPath, output, function(err) {
+        if (err) throw err;
+    });
+}
 
 
 // Write code to use inquirer to gather information about the development team members,
