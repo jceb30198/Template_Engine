@@ -53,34 +53,37 @@ const internObj = {
     name: "school",
     message: "School that the intern is attending"
 }
+
 inquirer.prompt(employeeArr).then(function(response){
     if (response.role === "Manager") {
+        console.log("Chose Manager");
         inquirer.prompt(managerObj).then(function(data){
             const manager = new Manager(response.name, response.id, response.email, data.officeNumber);
             hiredArr.push(manager);
-            console.log(hiredArr);
+            htmlFunc();
         });
     }
     else if (response.role === "Engineer") {
+        console.log("Chose Engineer");
         inquirer.prompt(engineerObj).then(function(data){
             const engineer = new Engineer(response.name, response.id, response.email, data.github);
-            console.log(engineer);
             hiredArr.push(engineer);
+            htmlFunc();
         });
     }
     else {
+        console.log("Chose Intern");
         inquirer.prompt(internObj).then(function(data){
             const intern = new Intern(response.name, response.id, response.email, data.school);
-            console.log(intern);
             hiredArr.push(intern);
+            htmlFunc();
         });
     }
-    htmlFunc();
 });
 
 function htmlFunc(){
     const output = render(hiredArr);
-    fs.writeFile(outputPath, output, function(err) {
+    fs.writeFileSync(outputPath, output, function(err) {
         if (err) throw err;
     });
 }
