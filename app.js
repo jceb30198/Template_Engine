@@ -51,14 +51,14 @@ const engineerObj = {
 const internObj = {
     type: "input",
     name: "school",
-    message: "Intern school that is being attended"
+    message: "School that the intern is attending"
 }
 inquirer.prompt(employeeArr).then(function(response){
     if (response.role === "Manager") {
         inquirer.prompt(managerObj).then(function(data){
             const manager = new Manager(response.name, response.id, response.email, data.officeNumber);
-            console.log(manager);
             hiredArr.push(manager);
+            console.log(hiredArr);
         });
     }
     else if (response.role === "Engineer") {
@@ -80,7 +80,7 @@ inquirer.prompt(employeeArr).then(function(response){
 
 function htmlFunc(){
     const output = render(hiredArr);
-    fs.writeFileSync(outputPath, output, function(err) {
+    fs.writeFile(outputPath, output, function(err) {
         if (err) throw err;
     });
 }
