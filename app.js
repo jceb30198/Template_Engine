@@ -30,47 +30,49 @@ const promptArr = [
     },
     {
         type: "list",
-        name: "position",
-        message: "Position of employee",
+        name: "role",
+        message: "Role of employee",
         choices: ["Manager", "Engineer", "Intern"]
     },
 ];
 
 inquirer.prompt(promptArr).then(function(response){
-    if (response.position === "Manager") {
+    if (response.role === "Manager") {
         console.log("Manager");
-        function Manager(name, id, email, position) {
-            this.name = name;
-            this.id = id;
-            this.email = email;
-            this.position = position;
-        }
-        const manager = new Manager(response.name, response.id, response.email, response.position);
-        console.log(manager);
+        employeeArr.push(manager);
     }
-    else if (response.position === "Engineer") {
+    else if (response.role === "Engineer") {
         console.log("Engineer");
-        function Engineer(name, id, email, position) {
+        function Engineer(name, id, email, role) {
             this.name = name;
             this.id = id;
             this.email = email;
-            this.position = position;
+            this.role = role;
         }
-        const engineer = new Engineer(response.name, response.id, response.email, response.position);
+        const engineer = new Engineer(response.name, response.id, response.email, response.role);
         console.log(engineer);
+        employeeArr.push(engineer);
     }
     else {
         console.log("Intern");
-        function Intern(name, id, email, position) {
+        function Intern(name, id, email, role) {
             this.name = name;
             this.id = id;
             this.email = email;
-            this.position = position;
+            this.role = role;
         }
-        const intern = new Intern(response.name, response.id, response.email, response.position);
+        const intern = new Intern(response.name, response.id, response.email, response.role);
         console.log(intern);
+        employeeArr.push(intern);
     }
+    sendFunc();
 });
+
+function sendFunc(){
+    console.log(employeeArr);
+    fs.writeFileSync(outputPath, render(employeeArr));
+}
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
