@@ -55,7 +55,7 @@ const internObj = {
     type: "input",
     name: "school",
     message: "School that the intern is attending"
-}
+};
 
 // Prompt code to run through the question array and there are conditionals based on the role
 inquirer.prompt(employeeArr).then(function(response){
