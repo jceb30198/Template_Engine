@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
+const OUTPUT_DIR = path.resolve(__dirname, "docs");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
@@ -52,33 +52,40 @@ const internObj = {
     type: "input",
     name: "school",
     message: "School that the intern is attending"
-}
+};
+
 inquirer.prompt(employeeArr).then(function(response){
     if (response.role === "Manager") {
+        console.log('chose manager')
         inquirer.prompt(managerObj).then(function(data){
+            console.log("adding new manager")
             const manager = new Manager(response.name, response.id, response.email, data.officeNumber);
             hiredArr.push(manager);
             console.log(hiredArr);
+            htmlFunc();
         });
     }
     else if (response.role === "Engineer") {
         inquirer.prompt(engineerObj).then(function(data){
             const engineer = new Engineer(response.name, response.id, response.email, data.github);
-            console.log(engineer);
             hiredArr.push(engineer);
+            console.log(hiredArr);
+            htmlFunc();
         });
     }
     else {
         inquirer.prompt(internObj).then(function(data){
             const intern = new Intern(response.name, response.id, response.email, data.school);
-            console.log(intern);
             hiredArr.push(intern);
+            console.log(hiredArr);
+            htmlFunc();
         });
     }
-    htmlFunc();
+   
 });
 
 function htmlFunc(){
+    console.log("At htmlfunc")
     const output = render(hiredArr);
     fs.writeFile(outputPath, output, function(err) {
         if (err) throw err;
