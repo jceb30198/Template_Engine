@@ -5,7 +5,7 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 
-const OUTPUT_DIR = path.resolve(__dirname, "output");
+const OUTPUT_DIR = path.resolve(__dirname, "docs");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
@@ -62,6 +62,7 @@ inquirer.prompt(employeeArr).then(function(response){
     if (response.role === "Manager") {
         console.log("Chose Manager");
         inquirer.prompt(managerObj).then(function(data){
+            console.log("adding new manager")
             const manager = new Manager(response.name, response.id, response.email, data.officeNumber);
             hiredArr.push(manager);
             htmlFunc();
@@ -87,6 +88,7 @@ inquirer.prompt(employeeArr).then(function(response){
 
 // Final function to write down on the html file
 function htmlFunc(){
+    console.log("At htmlfunc")
     const output = render(hiredArr);
     fs.writeFileSync(outputPath, output, function(err) {
         if (err) throw err;
