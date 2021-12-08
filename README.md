@@ -38,6 +38,8 @@ The application can be started by using the command: `node app.js`. Then the use
 
 - HTML5
 - CSS
+- Bootstrap
+- Font Awesome
 - JavaScript
 - JavaScript Classes
 - Node.js File Path module
